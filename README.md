@@ -6,6 +6,7 @@
 └── docker
     ├── run_mongodb.sh
     ├── run_mysql.sh
+    ├── run_postgres.sh
     └── run_redis.sh
 ```
 
