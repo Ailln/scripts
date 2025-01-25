@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 # Install Air for live reload (compatible with Linux and Mac)
 RUN ARCH=$(uname -m) && OS=$(uname -s | tr '[:upper:]' '[:lower:]') && \
     if [ "$ARCH" = "aarch64" ]; then ARCH="arm64"; fi && \
+    if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; fi && \
     curl -sSL "https://github.com/air-verse/air/releases/download/v${AIR_VERSION}/air_${AIR_VERSION}_${OS}_${ARCH}" -o /usr/local/bin/air && \
     chmod +x /usr/local/bin/air && \
     # Verify Air installation
