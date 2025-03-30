@@ -1,13 +1,13 @@
-# Use Python base image with Debian Bookworm
+# 使用基于 Debian Bookworm 的 Python 基础镜像
 FROM python:3.11.10-bookworm
 
-# Set environment variables
+# 设置环境变量
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_DEFAULT_TIMEOUT=100
 
-# Install common tools and dependencies
+# 安装常用工具和依赖
 RUN apt-get update && apt-get install -y \
     git vim tmux \
     build-essential \
@@ -15,25 +15,27 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure pip to use TUNA mirror
-RUN mkdir -p /root/.pip && echo "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > /root/.pip/pip.conf
+# 配置 pip 使用清华镜像源
+RUN mkdir -p /root/.pip && \
+    echo "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > /root/.pip/pip.conf
 
-# Set up a workspace directory
+# 设置工作目录
 WORKDIR /workspace
 
-# Install pipenv, virtualenv, and other common Python tools
+# 安装 pandas、numpy 等常用 Python 工具
 RUN pip install pandas numpy
 
-# Expose common development port (optional)
+# 暴露常用开发端口（可选）
 EXPOSE 8000
 
-# Default command
+# 默认命令
 CMD ["bash"]
 
-# build
+# 构建镜像命令
 # docker build -t python_3_11-dev:1.0.0 \
 #   -f ./python_dev.dockerfile .
-# run
+
+# 运行容器命令
 # docker run -it --name python-dev \
 #   -v $PWD:/workspace/ -p 8000:8000 \
 #   python_3_11-dev:1.0.0
